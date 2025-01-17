@@ -56,7 +56,7 @@ class LinkedList {
     at(index) {
         if (this.head === null) return 'List is empty';
         let arr = this.array;
-        if (index < 0 || index > arr.length) return 'Index is out of range';
+        if (index < 0 || index >= arr.length) return 'Index is out of range';
         else {
             let node = arr[index];
             return node;
@@ -64,6 +64,12 @@ class LinkedList {
     }
     pop() {
         if (this.head === null) return 'List is empty';
+        if (!this.head.next) { // If there's only one node
+            this.head = null;
+            this.array.pop();
+            this.length--;
+            return;
+        }
         let current = this.head;
         while (current.next.next !== null) {
             current = current.next;
@@ -84,11 +90,9 @@ class LinkedList {
         let current = this.head;
         while (current !== null) {
             if (current.value === value) {
-                const arr = this.array;
-                return arr.findIndex(elem => elem.value === value);
-            } else {
-                current = current.next;
-            }
+                return this.array.findIndex(elem => elem.value === value);
+            } 
+            current = current.next;
         }
         return null;
     }
@@ -102,6 +106,29 @@ class LinkedList {
         result += "null";
         return result;
     }
+    insertAt(value, index) {
+        if (index < 0 || index > this.length) return null;
+
+        let node = new Node(value);
+        if (node.value === null) node.value = value;
+        if (index === 0) {
+            node.next = this.head;
+            this.head = node;
+        } else {
+            let current = this.head;
+            let prev = null;
+            let count = 0;
+            while (count < index) {
+                prev = current;
+                current = current.next;
+                count++;
+            }
+            prev.next = node;
+            node.next = current;
+        }
+        this.array.splice(index, 0, node);
+        this.length++
+    }
 }
 
 let list = new LinkedList();
@@ -110,20 +137,20 @@ list.append(5)
 list.prepend(6)
 list.append(10)
 list.append(12)
-list.append(17)
-list.append(39)
 list.prepend(1)
+list.insertAt(11, 3)
 
 //list.pop();
 
 
 
-console.log(list)
 console.log("Size: ", list.size())
 //console.log("Head: ", list.getHead())
 //console.log("Tail: ", list.tail())
 //console.log("At: ", list.at(0))
-console.log(list.contains(6))
-console.log(list.find(39))
-console.log(list.find(79))
+// console.log(list.contains(6))
+// console.log(list.find(39))
+// console.log(list.find(79))
+console.log(list)
 console.log(list.toString())
+// console.log(list.insertAt(3, 11))
