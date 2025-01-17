@@ -80,6 +80,28 @@ class LinkedList {
         }
         return false;
     }
+    find(value) {
+        let current = this.head;
+        while (current !== null) {
+            if (current.value === value) {
+                const arr = this.array;
+                return arr.findIndex(elem => elem.value === value);
+            } else {
+                current = current.next;
+            }
+        }
+        return null;
+    }
+    toString() {
+        let current = this.head;
+        let result = "";
+        while (current !== null) {
+            result += `( ${current.value} ) -> `;
+            current = current.next;
+        }
+        result += "null";
+        return result;
+    }
 }
 
 let list = new LinkedList();
@@ -91,6 +113,7 @@ list.append(12)
 list.append(17)
 list.append(39)
 list.prepend(1)
+
 //list.pop();
 
 
@@ -101,3 +124,6 @@ console.log("Size: ", list.size())
 //console.log("Tail: ", list.tail())
 //console.log("At: ", list.at(0))
 console.log(list.contains(6))
+console.log(list.find(39))
+console.log(list.find(79))
+console.log(list.toString())
