@@ -129,6 +129,25 @@ class LinkedList {
         this.array.splice(index, 0, node);
         this.length++
     }
+    removeAt(index) {
+        if (index < 0 || index > this.length) return null;
+        if (this.head === null) return null;
+        if (index === 0) {
+            this.head = this.head.next;
+        } else {
+            let current = this.head;
+            let prev = null;
+            let counter = 0;
+            while (counter < index) {
+                prev = current;
+                current = current.next;
+                counter++;
+            }
+            prev.next = current.next;
+        }
+        this.array.splice(index, 1);
+        this.length--;
+    }
 }
 
 let list = new LinkedList();
@@ -139,7 +158,7 @@ list.append(10)
 list.append(12)
 list.prepend(1)
 list.insertAt(11, 3)
-
+list.removeAt(5)
 //list.pop();
 
 
